@@ -7,7 +7,9 @@ To email:
 first, create a file called UsernameAndPassword.py
 
 Include the code:
-	gmailUsername = "insert email@here.com"
-	gmailPassword = "insert real passowrd here"
+```python
+gmailUsername = "insert email@here.com"
+gmailPassword = "insert real passowrd here"
+```
 
 Make sure to keep the quotes. Replace the text in between quotes
