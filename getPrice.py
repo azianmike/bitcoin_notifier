@@ -15,3 +15,7 @@ def getCoinbasePrice():
     price = coinbaseJSON['subtotal']['amount']
 
     return price
+
+def getExchangePrice(exchange):
+    if exchange == 'coinbase':
+        return getCoinbasePrice()
