@@ -8,25 +8,27 @@ except ImportError:
 
 
 
-def sendEmailUsingGmailSMTP(loginUsername, loginPassword, recipient, message):
+def sendEmailUsingGmailSMTP(recipient, message):
     """
     Takes in a loginUsername and loginPassword (used to login into Gmail SMTP
     Also takes in a recipient (to send notification to) and a message
     """
 
+    if recipient == None or recipient == '' or '@' not in recipient or '.' not in recipient:
+        raise AssertionError("Recipient email address it not valid")
+
     sender = 'from@fromdomain.com'
     receivers = [recipient]
 
-    message = 'Subject: Bitcoin notifier \n\nThis is a test e-mail message.'
+    message = 'From:'+sender+'\r\nTo:'+recipient+'\r\nSubject: Bitcoin notifier \n\n' + message
 
 
     try:
        smtpObj = smtplib.SMTP('smtp.gmail.com:587')
        smtpObj.starttls()
-       smtpObj.login(loginUsername, loginPassword)
+       smtpObj.login(UsernameAndPassword.gmailUsername, UsernameAndPassword.gmailPassword)
        smtpObj.sendmail(sender, receivers, message)
-       print "Successfully sent email"
     except smtplib.SMTPException:
-       print "Error: unable to send email"
+       raise smtplib.SMTPException("Cannot connected to smtp")
 
 #sendEmailUsingGmailSMTP(UsernameAndPassword.gmailUsername, UsernameAndPassword.gmailPassword, "michaeluo@gmail.com", 'test')
