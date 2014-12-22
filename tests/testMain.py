@@ -3,7 +3,7 @@ __author__ = 'michaelluo'
 import unittest
 import main
 
-class TestSequenceFunctions(unittest.TestCase):
+class TestMainFunctions(unittest.TestCase):
 
     def test_checkArgs(self):
         self.assertTrue(main.checkValidArgs([1,2]))

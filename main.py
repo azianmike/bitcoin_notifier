@@ -55,7 +55,7 @@ def mainCheckLoop(compareOperator, email, exchange, interval, price):
     startInterval = time.time()
     endInterval = time.time()
     while (1):
-        currPrice = float(getExchangePrice(exchange))
+        currPrice = getExchangePrice(exchange)
         assert (currPrice != None)
         endInterval = time.time()
         currInterval = currInterval - abs(endInterval - startInterval)
@@ -67,6 +67,7 @@ def mainCheckLoop(compareOperator, email, exchange, interval, price):
             startInterval = time.time()
             endInterval = time.time()
             currInterval = intervalInSeconds - abs(endInterval - startInterval)
+            time.sleep(intervalInSeconds) #sleeps for the interval time so dont need to keep querying
 
         time.sleep(1)
 
