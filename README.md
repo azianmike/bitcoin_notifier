@@ -25,7 +25,7 @@ Also, the comparison operator must be put in single quotes i.e. '<' <br/>
 Price can be any float (decimal) number i.e. 340.11 or 660<br/>
 email address is obviously any valid email address<br/>
 Interval in HOURS between each notifcation. Accepts decimals (i.e for every 10 minutes, input 0.16666).<br/>
-If you put 1 (hour), when it hits your price threshold, it will send you an email and then "sleep" for an hour<br/>
+If you put 1 (hour), when it hits your price threshold, it will send you an email and then "sleep" for an hour
 and won't start checking or sending you notifications until an hour later.<br/>
 
 ##### Note that the comparison operator only accepts two inputs currently, '>' or '<'
