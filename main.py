@@ -83,20 +83,13 @@ def main():
     compareOperator = sys.argv[1]
     email = sys.argv[3]
     interval = sys.argv[4]
-    exchange = sys.argv[5]
+    exchange = sys.argv[5].lower()
 
     mainCheckLoop(compareOperator, email, exchange, interval, price)
 
 
-
-
-
 if __name__ == "__main__":
     main()
-    # interval = 50
-    # startInterval = time.time()
-    # time.sleep(1)
-    # endInterval = time.time()
-    # print interval - (endInterval-startInterval)
+
 
 
