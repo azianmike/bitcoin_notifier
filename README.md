@@ -31,9 +31,9 @@ If you put 1 (hour), it will "sleep" and won't start checking or sending you not
 
 ### Example usage
 ```python
-python main.py '<' 350.00 test@gmail.com 6 coinbase
+python main.py '<' 350.52 test@gmail.com 6 coinbase
 ```
-Sends a notification once every 6 hours ONLY IF coinbase exchange price is < $350
+Sends a notification once every 6 hours ONLY IF coinbase exchange price is < $350.52
 
 ```python
 python main.py '>' 500 michaeluo@gmail.com 0.5 coinbase
