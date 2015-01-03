@@ -6,7 +6,7 @@ def tryGettingPrice(timesToTry):
     Tries getting the price x times (to account for HTTP errors and slow networks)
 
     '''
-    from urllib2 import urlopen, HTTPError
+    from urllib2 import urlopen, HTTPError, URLError
     from json import loads
     for x in range(0, timesToTry):
         try:
@@ -14,6 +14,8 @@ def tryGettingPrice(timesToTry):
             return coinbaseJSON
         except HTTPError:
             print HTTPError
+        except URLError:
+            print URLError
 
     return coinbaseJSON
 
