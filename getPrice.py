@@ -1,7 +1,7 @@
 __author__ = 'michaelluo'
 
 
-def tryGettingPrice(timesToTry):
+def tryGettingPrice(timesToTry, url):
     '''
     Tries getting the price x times (to account for HTTP errors and slow networks)
 
@@ -10,14 +10,23 @@ def tryGettingPrice(timesToTry):
     from json import loads
     for x in range(0, timesToTry):
         try:
-            coinbaseJSON = loads(urlopen("https://api.coinbase.com/v1/prices/buy?qty=1").read())
-            return coinbaseJSON
+            genericJSON = loads(urlopen(url).read())
+            return genericJSON
         except HTTPError:
             print HTTPError
         except URLError:
             print URLError
 
-    return coinbaseJSON
+    return None
+
+def getBitfinexPrice():
+    '''
+    Gets bitfinex price (last price)
+
+    '''
+    bitfinexJSON = tryGettingPrice(10, "https://api.bitfinex.com/v1/pubticker/BTCUSD")
+    price = float(bitfinexJSON['last_price'])
+    return price
 
 
 def getCoinbasePrice():
@@ -28,7 +37,7 @@ def getCoinbasePrice():
     '''
 
 
-    coinbaseJSON = tryGettingPrice(10)
+    coinbaseJSON = tryGettingPrice(10, "https://api.coinbase.com/v1/prices/buy?qty=1")
 
 
     price = float(coinbaseJSON['subtotal']['amount'])
@@ -36,5 +45,7 @@ def getCoinbasePrice():
     return price
 
 def getExchangePrice(exchange):
-    if exchange == 'coinbase':
+    if exchange.lower() == 'coinbase':
         return getCoinbasePrice()
+    if exchange.lower() == 'bitfinex':
+        return getBitfinexPrice()
