@@ -1,3 +1,4 @@
 .idea/*
 UsernameAndPassword.py
 *.pyc
+credentials.py
