@@ -16,7 +16,7 @@ def sendEmailUsingMandrill(recipient, message):
     if recipient == None or recipient == '' or '@' not in recipient or '.' not in recipient:
         raise AssertionError("Recipient email address it not valid")
 
-    sender = 'from@fromdomain.com'
+    sender = 'notify@coinsniff.com'
     receivers = [recipient]
 
     message = 'From:'+sender+'\r\nTo:'+recipient+'\r\nSubject: Bitcoin notifier \n\n' + message

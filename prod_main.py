@@ -3,11 +3,31 @@ __author__ = 'michaelluo'
 import sys
 from getPrice import getExchangePrice
 import time
-from notifyViaEmail import sendEmailUsingGmailSMTP
+from notifyViaEmail import sendEmailUsingGmailSMTP, sendEmailUsingMandrill
 import math
 
 def checkValidArgs(args):
-    if len(args) != 2:
+    if len(args) != 6:
+        return True
+    try:
+        float(args[2])
+    except ValueError:
+        return True
+
+    listOfCompareOperators = ['>', '<', '>=', '<=']
+    if args[1] not in listOfCompareOperators:
+        return True
+
+    if '@' not in args[3] and '.' not in args[3]:
+        return True
+
+    try:
+        float(args[4])
+    except ValueError:
+        return True
+
+    listOfExchanges = ['coinbase', 'bitfinex']
+    if args[5] not in listOfExchanges:
         return True
 
     return False
@@ -42,7 +62,8 @@ def mainCheckLoop(compareOperator, email, exchange, interval, price):
 
         if comparePrices(currPrice, price, compareOperator) and currInterval <= 0:
             message = 'Current price of 1btc on ' + exchange + ' is $' + str(currPrice)+' ('+compareOperator+str(price)+') at '+str(time.strftime("%c"))
-            sendEmailUsingGmailSMTP(email, message)
+            #sendEmailUsingGmailSMTP(email, message)
+            sendEmailUsingMandrill(email, message)
             print 'sent an email'
             startInterval = time.time()
             endInterval = time.time()
@@ -59,14 +80,17 @@ def main():
     '''
     if checkValidArgs(sys.argv):
         printUsageAndExit()
-    mysqlIP = sys.argv[2]
+    price = float(sys.argv[2])
+    compareOperator = sys.argv[1]
+    email = sys.argv[3]
+    interval = sys.argv[4]
+    exchange = sys.argv[5].lower()
 
     mainCheckLoop(compareOperator, email, exchange, interval, price)
 
 
 if __name__ == "__main__":
     main()
-
 
 
 
