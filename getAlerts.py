@@ -36,6 +36,6 @@ def getActiveEmailAlerts(price, exchangeName):
 
     return listOfAlerts
 
-alerts = getActiveEmailAlerts(190, 'coinbase')
-print alerts
-print int(time.time())
+#alerts = getActiveEmailAlerts(190, 'coinbase')
+#print alerts
+#print int(time.time())
