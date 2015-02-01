@@ -7,14 +7,24 @@ from notifyViaEmail import sendEmailUsingGmailSMTP, sendEmailUsingMandrill
 import math
 from getAlerts import getActiveEmailAlerts
 
-def mainCheckLoop(compareOperator, email, exchange, interval, price):
+def createMessage(alert, exchange, currPrice):
+    compareOperator=''
+    if alert['sign'] == 'lessThan':
+        compareOperator='<'
+    if alert['sign'] == 'greaterThan':
+        compareOperator='>'
+    message = 'Current price of 1btc on ' + exchange + ' is $' + str(currPrice)+' ('+compareOperator+str(alert['priceThreshold'])+') at '+str(time.strftime("%c"))
+    return message    
+
+def mainCheckLoop(exchange):
     while (1):
         currPrice = getExchangePrice(exchange)
         assert (currPrice != None)
         allEmailAlerts = getActiveEmailAlerts(currPrice, exchange)
-        for email in allEmailAlerts:
-            sendEmailUsingMandrill(email['email'], message)
-
+        for alert in allEmailAlerts:
+            message = createMessage(alert,exchange, currPrice)
+            sendEmailUsingMandrill(alert['email'], message)
+            print 'sent email to '+alert['email']
         time.sleep(1)
 
 
@@ -23,12 +33,9 @@ def main():
     Params:
     [less than or greater (use or < or >=)] [price] [email] [interval in hours] [exchange]
     '''
-    if checkValidArgs(sys.argv):
-        printUsageAndExit()
-
     exchange = sys.argv[1].lower()
 
-    mainCheckLoop(compareOperator, email, exchange, interval, price)
+    mainCheckLoop(exchange)
 
 
 if __name__ == "__main__":
