@@ -6,49 +6,6 @@ import time
 from notifyViaEmail import sendEmailUsingGmailSMTP, sendEmailUsingMandrill
 import math
 
-def checkValidArgs(args):
-    if len(args) != 6:
-        return True
-    try:
-        float(args[2])
-    except ValueError:
-        return True
-
-    listOfCompareOperators = ['>', '<', '>=', '<=']
-    if args[1] not in listOfCompareOperators:
-        return True
-
-    if '@' not in args[3] and '.' not in args[3]:
-        return True
-
-    try:
-        float(args[4])
-    except ValueError:
-        return True
-
-    listOfExchanges = ['coinbase', 'bitfinex']
-    if args[5] not in listOfExchanges:
-        return True
-
-    return False
-
-
-def printUsageAndExit():
-    print 'Invalid arguments: python main.py [less than or greater (use or < or >=)] [price] [email] [interval in hours] [exchange]'
-    sys.exit(2)
-
-
-def comparePrices(currPrice, price, compareOperator):
-    if compareOperator == '<':
-        if currPrice < price:
-            return True
-    elif compareOperator == '>':
-        if currPrice > price:
-            return True
-
-    return False
-
-
 def mainCheckLoop(compareOperator, email, exchange, interval, price):
     intervalInSeconds = float(interval) * 3600
     currInterval = 0
@@ -57,12 +14,7 @@ def mainCheckLoop(compareOperator, email, exchange, interval, price):
     while (1):
         currPrice = getExchangePrice(exchange)
         assert (currPrice != None)
-        endInterval = time.time()
-        currInterval = currInterval - abs(endInterval - startInterval)
 
-        if comparePrices(currPrice, price, compareOperator) and currInterval <= 0:
-            message = 'Current price of 1btc on ' + exchange + ' is $' + str(currPrice)+' ('+compareOperator+str(price)+') at '+str(time.strftime("%c"))
-            #sendEmailUsingGmailSMTP(email, message)
             sendEmailUsingMandrill(email, message)
             print 'sent an email'
             startInterval = time.time()
