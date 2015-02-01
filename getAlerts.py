@@ -22,6 +22,7 @@ def getActiveEmailAlerts(price, exchangeName):
         temp['emailAlert'] = alert.emailAlert
         temp['textAlert'] = alert.textAlert
         listOfAlerts.append(temp)
+        alert.updateNextAlert()
     
     for alert in alertsGreaterThanPrice:
         temp = {}
