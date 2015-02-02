@@ -14,6 +14,7 @@ def getActiveEmailAlerts(price, exchangeName):
     listOfAlerts = []
     for alert in alertsLessThanPrice:
         temp = {}
+        temp['alertID'] = alert.alertID
         temp['email'] = alert.email
         temp['phone'] = alert.phone
         temp['priceThreshold'] = alert.priceThreshold
@@ -26,6 +27,7 @@ def getActiveEmailAlerts(price, exchangeName):
     
     for alert in alertsGreaterThanPrice:
         temp = {}
+        temp['alertID'] = alert.alertID
         temp['email'] = alert.email
         temp['phone'] = alert.phone
         temp['priceThreshold'] = alert.priceThreshold
@@ -33,8 +35,9 @@ def getActiveEmailAlerts(price, exchangeName):
         temp['intervalInSeconds'] = alert.intervalInSeconds
         temp['emailAlert'] = alert.emailAlert
         temp['textAlert'] = alert.textAlert
-        listOfAlerts.append(alert)
-
+        listOfAlerts.append(temp)
+        alert.updateNextAlert()
+        
     return listOfAlerts
 
 #alerts = getActiveEmailAlerts(190, 'coinbase')
