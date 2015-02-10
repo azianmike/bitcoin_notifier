@@ -24,7 +24,7 @@ def getBitfinexPrice():
     Gets bitfinex price (last price)
 
     '''
-    bitfinexJSON = tryGettingPrice(10, "https://api.bitfinex.com/v1/pubticker/BTCUSD")
+    bitfinexJSON = tryGettingPrice(10000, "https://api.bitfinex.com/v1/pubticker/BTCUSD")
     price = float(bitfinexJSON['last_price'])
     return price
 
@@ -35,11 +35,7 @@ def getCoinbasePrice():
 
     Returns (double) price of 1 bitcoin WITHOUT any fees.
     '''
-
-
-    coinbaseJSON = tryGettingPrice(10, "https://api.coinbase.com/v1/prices/buy?qty=1")
-
-
+    coinbaseJSON = tryGettingPrice(10000, "https://api.coinbase.com/v1/prices/buy?qty=1")
     price = float(coinbaseJSON['subtotal']['amount'])
 
     return price
