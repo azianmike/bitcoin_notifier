@@ -25,6 +25,21 @@ class TestPriceFunctions(unittest.TestCase):
         self.assertIsNotNone(price)
         self.assertIsInstance(price, float)
 
+    def test_getBitstampPrice(self):
+        price = getPrice.getBitstampPrice()
+        self.assertIsNotNone(price)
+        self.assertIsInstance(price, float)
+
+    def test_getBtcePrice(self):
+        price = getPrice.getBtcePrice()
+        self.assertIsNotNone(price)
+        self.assertIsInstance(price, float)
+
+    def test_getCoinbaseExchangePrice(self):
+        price = getPrice.getCoinbaseExchangePrice()
+        self.assertIsNotNone(price)
+        self.assertIsInstance(price, float)
+
     def test_getExchangePrice(self):
         price = getPrice.getBitfinexPrice()
         exchangePrice = getPrice.getExchangePrice('bitfinex')
@@ -41,6 +56,7 @@ class TestPriceFunctions(unittest.TestCase):
         self.assertIsNotNone(exchangePrice)
         self.assertIsInstance(exchangePrice, float)
         self.assertEquals(price, exchangePrice)
+
 
 
 if __name__ == '__main__':

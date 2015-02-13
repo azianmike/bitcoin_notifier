@@ -28,6 +28,20 @@ def getBitfinexPrice():
     price = float(bitfinexJSON['last_price'])
     return price
 
+def getBitstampPrice():
+    bitstampJSON = tryGettingPrice(10000, "https://www.bitstamp.net/api/ticker/")
+    price = float(bitstampJSON['last'])
+    return price
+
+def getBtcePrice():
+    bitstampJSON = tryGettingPrice(10000, "https://btc-e.com/api/3/ticker/btc_usd")
+    price = float(bitstampJSON['btc_usd']['last'])
+    return price
+
+def getCoinbaseExchangePrice():
+    bitstampJSON = tryGettingPrice(10000, "https://api.exchange.coinbase.com/products/btc-usd/ticker")
+    price = float(bitstampJSON['price'])
+    return price
 
 def getCoinbasePrice():
     '''
@@ -45,3 +59,9 @@ def getExchangePrice(exchange):
         return getCoinbasePrice()
     if exchange.lower() == 'bitfinex':
         return getBitfinexPrice()
+    if exchange.lower() == 'bitstamp':
+        return getBitstampPrice()
+    if exchange.lower() == 'btc-e':
+        return getBtcePrice()
+    if exchange.lower() == 'coinbase exchange':
+        return getCoinbaseExchangePrice()
