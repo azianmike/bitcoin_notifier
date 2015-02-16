@@ -14,7 +14,7 @@ def createMessage(alert, exchange, currPrice):
     if alert['sign'] == 'greaterThan':
         compareOperator='>'
     message = 'Current price of 1btc on ' + exchange + ' is $' + str(currPrice)+' ('+compareOperator+str(alert['priceThreshold'])+') at '+str(time.strftime("%c"))
-    message += '\n\nClick the link to cancel THIS specific alert http://coinsniff.com/cancelAlert/'+alert['alertID']
+    message += '\n\nClick the link to cancel THIS specific alert http://coinsniff.com/cancelPage/'+alert['alertID']
     return message    
 
 def mainCheckLoop(exchange):
