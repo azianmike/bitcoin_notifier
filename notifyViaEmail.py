@@ -1,12 +1,31 @@
 __author__ = 'michaelluo'
 
 import smtplib
+from submitAlertJSON.models import AlertsPerHour
+from deleteAlerts import deleteAllAlerts
 try:
     import UsernameAndPassword
 except ImportError:
     raise ImportError('Make a UsernameAndPassword.py file with your username and password')
 
 
+def checkAlertLimits(recipient):
+    import time
+    tempPerson = AlertsPerHour.objects.get(person=recipient)
+    if tempPerson.alertsSentInLastHour >= 49:
+        deleteAllAlerts(recipient)
+        sendEmailUsingMandrill(recipient, "You are receiving too many alerts, please calm down")
+        return False
+    else:
+        currTime = time.time()
+        if tempPerson.lastHour<currTime and tempPerson.lastHour+3600>currTime:
+            tempPerson.alertsSentInLastHour += 1
+        else:
+            tempPerson.lastHour = currTime
+            tempPerson.alertsSentInLastHour = 1
+        tempPerson.save() 
+    return True
+        
 def sendEmailUsingMandrill(recipient, message):
     """
     Takes in a loginUsername and loginPassword (used to login into Gmail SMTP
@@ -31,6 +50,11 @@ def sendEmailUsingMandrill(recipient, message):
        raise smtplib.SMTPException("Cannot connected to smtp")
 
 
+def checkAlertsAndSendEmail(recipient, message):
+    if !checkAlertLimits(recipient):
+        return
+    else:
+        sendEmailUsingMandrill(recipient, message)
 
 def sendEmailUsingGmailSMTP(recipient, message):
     """
@@ -54,5 +78,7 @@ def sendEmailUsingGmailSMTP(recipient, message):
        smtpObj.sendmail(sender, receivers, message)
     except smtplib.SMTPException:
        raise smtplib.SMTPException("Cannot connected to smtp")
+
+
 
 #sendEmailUsingGmailSMTP(UsernameAndPassword.gmailUsername, UsernameAndPassword.gmailPassword, "michaeluo@gmail.com", 'test')
