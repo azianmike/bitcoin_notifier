@@ -3,7 +3,7 @@ __author__ = 'michaelluo'
 import sys
 from getPrice import getExchangePrice
 import time
-from notifyViaEmail import sendEmailUsingGmailSMTP, sendEmailUsingMandrill
+from notifyViaEmail import sendEmailUsingGmailSMTP, sendEmailUsingMandrill, checkAlertsAndSendEmail
 import math
 from getAlerts import getActiveEmailAlerts
 
@@ -24,7 +24,8 @@ def mainCheckLoop(exchange):
         allEmailAlerts = getActiveEmailAlerts(currPrice, exchange)
         for alert in allEmailAlerts:
             message = createMessage(alert,exchange, currPrice)
-            sendEmailUsingMandrill(alert['email'], message)
+            #sendEmailUsingMandrill(alert['email'], message)
+            checkAlertsAndSendEmail(alert['email'], message)
             print 'sent email to '+alert['email']
         time.sleep(1)
 

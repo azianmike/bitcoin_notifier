@@ -1,6 +1,12 @@
 __author__ = 'michaelluo'
 
 import smtplib
+import os, sys
+from django.conf import settings
+sys.path.append('/var/www/bitcoin_notifier')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "bitcoin_notifier_web.settings")
+import django
+django.setup()
 from submitAlertJSON.models import AlertsPerHour
 from deleteAlerts import deleteAllAlerts
 try:
@@ -12,7 +18,7 @@ except ImportError:
 def checkAlertLimits(recipient):
     import time
     tempPerson = AlertsPerHour.objects.get(person=recipient)
-    if tempPerson.alertsSentInLastHour >= 49:
+    if tempPerson.alertsSentInLastHour >= 20:
         deleteAllAlerts(recipient)
         sendEmailUsingMandrill(recipient, "You are receiving too many alerts, please calm down")
         return False
@@ -51,7 +57,7 @@ def sendEmailUsingMandrill(recipient, message):
 
 
 def checkAlertsAndSendEmail(recipient, message):
-    if !checkAlertLimits(recipient):
+    if not checkAlertLimits(recipient):
         return
     else:
         sendEmailUsingMandrill(recipient, message)
