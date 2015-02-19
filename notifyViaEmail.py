@@ -18,7 +18,7 @@ except ImportError:
 def checkAlertLimits(recipient):
     import time
     tempPerson = AlertsPerHour.objects.get(person=recipient)
-    if tempPerson.alertsSentInLastHour >= 20:
+    if tempPerson.alertsSentInLastHour >= 10:
         deleteAllAlerts(recipient)
         sendEmailUsingMandrill(recipient, "You are receiving too many alerts, please calm down")
         return False
